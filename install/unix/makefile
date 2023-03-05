@@ -63,6 +63,7 @@ RSAREFLIB = rsaref.a
 # The location of the demo source directory.
 RDEMODIR = ../rdemo/
 DEMODIR = ../demo/
+ARCADYANDIR = ../arcadyan/
 
 ifdef CPUT
 all : rstdasm.$(O) demo $(RSAREFLIB)
@@ -96,6 +97,9 @@ mdemo : mdemo.$(O) $(RSAEUROLIB)
 redemo : redemo.$(O) $(RSAEUROLIB)
 	gcc -o $@ redemo.$(O) $(RSAEUROLIB)
 
+arcadyan : arcadyan.$(O) $(RSAEUROLIB)
+	gcc -o $@ arcadyan.$(O) $(RSAEUROLIB) -lcrypto
+
 ifdef CPUT
 $(RSAEUROLIB) : desc.$(O) shsc.$(O) md2c.$(O) md4c.$(O) md5c.$(O) nn.$(O) prime.$(O)\
 	rsa.$(O) r_encode.$(O) r_dh.$(O) r_enhanc.$(O) r_keygen.$(O) r_random.$(O)\
@@ -118,5 +122,8 @@ mdemo.$(O) : $(DEMODIR)mdemo.c $(RSAEURODIR)global.h $(RSAEURODIR)rsaref.h
 
 redemo.$(O) : $(DEMODIR)redemo.c $(RSAEURODIR)global.h $(RSAEURODIR)rsaref.h
 	$(CC) $(CFLAGS) $(DEMODIR)redemo.c
+
+arcadyan.$(O) : ${ARCADYANDIR}arcadyan.c $(RSAEURODIR)global.h $(RSAEURODIR)rsaref.h
+	$(CC) $(CFLAGS) -Wall $(ARCADYANDIR)arcadyan.c
 
 include $(RSAEURODIR)targets.mak
